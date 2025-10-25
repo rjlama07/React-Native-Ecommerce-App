@@ -11,7 +11,7 @@ import { AppColors } from "../../styles/colors";
 
 interface AppSafeViewProps {
   children: React.ReactNode;
-  style: TextStyle;
+  style?: TextStyle;
 }
 
 const AppSafeView: FC<AppSafeViewProps> = ({ children, style }) => {
