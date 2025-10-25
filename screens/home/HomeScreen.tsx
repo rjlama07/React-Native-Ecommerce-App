@@ -8,8 +8,11 @@ import { FlatList } from "react-native-gesture-handler";
 import { products } from "../../constants/products";
 import { vs } from "react-native-size-matters";
 import { sharedPaddingHorizontal } from "../../styles/sharedStyles";
+import { useDispatch } from "react-redux";
+import { addItemToCart } from "../../stores/reducers/cardSlice";
 
 const HomeScreen = () => {
+  const dispatch = useDispatch();
   return (
     <AppSafeView>
       <HomeHeader />
@@ -28,7 +31,9 @@ const HomeScreen = () => {
         renderItem={(item) => (
           <ProductCard
             imageUrl={item.item.imageURL}
-            onPress={() => {}}
+            onPress={() => {
+              dispatch(addItemToCart(item.item));
+            }}
             title={item.item.title}
             price={item.item.price.toString()}
           />

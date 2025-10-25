@@ -6,14 +6,6 @@ import { AppFonts } from "../../styles/fonts";
 import { AppColors } from "../../styles/colors";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 
-const dummy = {
-  id: 1,
-  price: 1199,
-  title: "iPhone 16 Pro Max",
-  imageURL:
-    "https://2b.com.eg/media/catalog/product/cache/661473ab953cdcdf4c3b607144109b90/m/a/ma658.jpg",
-};
-
 interface CartItemProps {
   title: string;
   price: string | number;
@@ -40,11 +32,11 @@ const CartItem: FC<CartItemProps> = (props) => {
         <AppText style={styles.textTitle}>{props.title}</AppText>
         <AppText style={styles.textPrice}>{props.price} $</AppText>
         <View style={styles.quantityContainer}>
-          <Pressable style={styles.iconButton}>
+          <Pressable style={styles.iconButton} onPress={props.onAdd}>
             <FontAwesome name="plus" size={s(10)} color={AppColors.primary} />
           </Pressable>
           <AppText style={styles.quantityText}>{props.quantity}</AppText>
-          <Pressable style={styles.iconButton}>
+          <Pressable style={styles.iconButton} onPress={props.onRemove}>
             <FontAwesome name="minus" size={s(10)} color={AppColors.primary} />
           </Pressable>
         </View>
@@ -52,7 +44,7 @@ const CartItem: FC<CartItemProps> = (props) => {
 
       {/* Delete Container */}
       <View style={styles.deleteContainer}>
-        <Pressable style={styles.deleteButton}>
+        <Pressable style={styles.deleteButton} onPress={props.onDelete}>
           <AntDesign
             name="delete"
             size={s(14)}

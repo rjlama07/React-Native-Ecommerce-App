@@ -10,6 +10,8 @@ import AuthStack from "./navigation/AuthStack";
 import { NavigationContainer } from "@react-navigation/native";
 import MainAppStack from "./navigation/MainAppStack";
 import { useFonts } from "expo-font";
+import { Provider } from "react-redux";
+import { store } from "./stores/store";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -21,9 +23,11 @@ export default function App() {
     return <ActivityIndicator />;
   }
   return (
-    <NavigationContainer>
-      <MainAppStack />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <MainAppStack />
+      </NavigationContainer>
+    </Provider>
   );
 }
 

@@ -19,7 +19,7 @@ const ProductCard: FC<ProductProps> = ({ onPress, imageUrl, title, price }) => {
     <View style={styles.container}>
       {/* Add to cart */}
       <View style={styles.addToCart}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onPress}>
           <Ionicons name="cart" color={"white"} size={15} />
         </TouchableOpacity>
       </View>

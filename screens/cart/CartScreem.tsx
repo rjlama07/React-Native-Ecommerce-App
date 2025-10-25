@@ -8,33 +8,51 @@ import TotalView from "../../components/cart/TotalView";
 import { FlatList } from "react-native-gesture-handler";
 import { products } from "../../constants/products";
 import { sharedPaddingHorizontal } from "../../styles/sharedStyles";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../stores/store";
+import {
+  addItemToCart,
+  deleteItem,
+  removeItemsFromCart,
+} from "../../stores/reducers/cardSlice";
 
 const CartScreem = () => {
+  const { items } = useSelector((state: RootState) => state.cart);
+  const dispatch = useDispatch();
+  const totalPrice = items.reduce((acc, item) => acc + item.sum, 0);
   return (
     <AppSafeView>
       <HomeHeader />
-      {/* <EmptyCard></EmptyCard> */}
-      <View style={{ paddingHorizontal: sharedPaddingHorizontal, flex: 1 }}>
-        <FlatList
-          data={products}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={(items) => {
-            const item = items.item;
-            return (
-              <CartItem
-                title={item.title}
-                price={item.price}
-                quantity={items.index + 1}
-                imageUrl={item.imageURL}
-                onAdd={() => {}}
-                onRemove={() => {}}
-                onDelete={() => {}}
-              ></CartItem>
-            );
-          }}
-        />
-        <TotalView></TotalView>
-      </View>
+      {items.length <= 0 && <EmptyCard />}
+      {items.length > 0 && (
+        <View style={{ paddingHorizontal: sharedPaddingHorizontal, flex: 1 }}>
+          <FlatList
+            data={items}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={(items) => {
+              const item = items.item;
+              return (
+                <CartItem
+                  title={item.title}
+                  price={item.sum}
+                  quantity={item.quantity}
+                  imageUrl={item.imageURL}
+                  onAdd={() => {
+                    dispatch(addItemToCart(item));
+                  }}
+                  onRemove={() => {
+                    dispatch(removeItemsFromCart(item));
+                  }}
+                  onDelete={() => {
+                    dispatch(deleteItem(item));
+                  }}
+                ></CartItem>
+              );
+            }}
+          />
+          <TotalView price={totalPrice}></TotalView>
+        </View>
+      )}
     </AppSafeView>
   );
 };
