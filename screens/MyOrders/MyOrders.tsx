@@ -1,38 +1,22 @@
 import { StyleSheet, Text, View, FlatList } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AppSafeView from "../../components/views/AppSafeView";
 import AppbarBackButton from "../../components/headers/AppbarBackButton";
 import MyOrderCard from "../../components/cart/MyOrderCard";
 import { sharedPaddingHorizontal } from "../../styles/sharedStyles";
-
-const orderData = [
-  {
-    id: 1,
-    date: "2025-01-01",
-    totalAmount: 120.5,
-    totalPrice: "$150",
-  },
-  {
-    id: 2,
-    date: "2020-01-01",
-    totalAmount: 190.5,
-    totalPrice: "$290",
-  },
-  {
-    id: 3,
-    date: "2025-01-01",
-    totalAmount: 120.5,
-    totalPrice: "$150",
-  },
-  {
-    id: 4,
-    date: "2025-01-01",
-    totalAmount: 120.5,
-    totalPrice: "$150",
-  },
-];
+import { getUserOrders } from "../../config/dataServices";
 
 const MyOrders = () => {
+  const [orderData, setOrderData] = useState([]);
+
+  useEffect(() => {
+    async function getOrder() {
+      const data = await getUserOrders();
+      setOrderData(data);
+    }
+    getOrder();
+  }, []);
+
   return (
     <AppSafeView>
       <AppbarBackButton title="My Orders" />
@@ -45,7 +29,13 @@ const MyOrders = () => {
         data={orderData}
         keyExtractor={(item) => item.id.toString()}
         renderItem={(item) => {
-          return <MyOrderCard {...item.item} />;
+          return (
+            <MyOrderCard
+              date={item.item.detailsAddress}
+              totalAmount={item.item.totalProductsPrice}
+              totalPrice={item.item.totalProductsPrice}
+            />
+          );
         }}
       />
     </AppSafeView>

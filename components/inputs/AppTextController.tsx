@@ -1,19 +1,28 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { Controller } from "react-hook-form";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import AppTextInputts from "./AppTextInputts";
 import { AppColors } from "../../styles/colors";
 import AppText from "../texts/AppText";
 import { s, vs } from "react-native-size-matters";
 
-const AppTextController = ({
+interface AppTextInputControllerProps<T extends FieldValues> {
+  control: Control<T>;
+  name: Path<T>;
+  rules?: object;
+  placeHolder: string;
+  secureTextEntry?: boolean;
+  keyBoardType?: "default" | "email-address" | "numeric";
+}
+
+const AppTextController = <T extends FieldValues>({
   control,
   name,
   rules,
   placeHolder,
   secureTextEntry,
   keyBoardType,
-}) => {
+}: AppTextInputControllerProps<T>) => {
   return (
     <Controller
       control={control}
@@ -29,7 +38,11 @@ const AppTextController = ({
             KeyboardType={keyBoardType}
             style={error ? styles.errorStyle : {}}
           ></AppTextInputts>
-          {error && <AppText style={styles.errorText}>{error.message}</AppText>}
+          {error && (
+            <View style={{ width: "100%" }}>
+              <AppText style={styles.errorText}>{error.message}</AppText>
+            </View>
+          )}
         </>
       )}
     />
@@ -48,5 +61,8 @@ const styles = StyleSheet.create({
     paddingLeft: s(12),
     color: AppColors.red,
     marginBottom: vs(10),
+    alignSelf: "flex-start",
+    textAlign: "left",
+    width: "100%",
   },
 });

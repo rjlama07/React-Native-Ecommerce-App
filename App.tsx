@@ -12,6 +12,8 @@ import MainAppStack from "./navigation/MainAppStack";
 import { useFonts } from "expo-font";
 import { Provider } from "react-redux";
 import { store } from "./stores/store";
+import FlashMessage from "react-native-flash-message";
+import RootNavigation from "./navigation/RootNavigation";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -24,9 +26,8 @@ export default function App() {
   }
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <MainAppStack />
-      </NavigationContainer>
+      <FlashMessage></FlashMessage>
+      <RootNavigation></RootNavigation>
     </Provider>
   );
 }

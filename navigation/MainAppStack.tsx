@@ -13,7 +13,6 @@ export default function MainAppStack() {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="AuthStack" component={AuthStack}></Stack.Screen>
       <Stack.Screen
         name="MainAppBottomTabs"
         component={MainAppBottomTabs}

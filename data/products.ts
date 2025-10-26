@@ -1,7 +1,7 @@
 export const products = [
   {
     id: 1,
-    price: 1199,
+    price: 290,
     title: "iPhone 16 Pro Max",
     imageURL:
       "https://2b.com.eg/media/catalog/product/cache/661473ab953cdcdf4c3b607144109b90/m/a/ma658.jpg",
@@ -45,6 +45,7 @@ export const products = [
     id: 7,
     price: 79,
     title: "Logitech Camera ",
-    imageURL: "https://resource.logitech.com/content/dam/logitech/en/products/webcams/c310/gallery/c310-gallery-1.png",
+    imageURL:
+      "https://resource.logitech.com/content/dam/logitech/en/products/webcams/c310/gallery/c310-gallery-1.png",
   },
 ];

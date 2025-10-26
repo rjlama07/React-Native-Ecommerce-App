@@ -15,6 +15,12 @@ import { useForm } from "react-hook-form";
 import AppTextController from "../../components/inputs/AppTextController";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useSelector } from "react-redux";
+import { RootState } from "../../stores/store";
+import { addDoc, collection, doc, sum } from "firebase/firestore";
+import { db } from "../../config/firebaseConfig";
+import { showMessage } from "react-native-flash-message";
+import { useNavigation } from "@react-navigation/native";
 
 const validationScheme = yup
   .object({
@@ -38,13 +44,34 @@ const validationScheme = yup
   })
   .required();
 
-const CheckoutScreen = (f) => {
+type FormData = yup.InferType<typeof validationScheme>;
+const CheckoutScreen = () => {
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(validationScheme),
   });
+  const items = useSelector((state: RootState) => state.cart);
+  const totalPrice = items.items.reduce((acc, item) => acc + item.sum, 0);
+  const userData = useSelector((state: RootState) => state.user.userData);
+  const navigation = useNavigation();
 
-  function saveOrder(formData) {
-    console.log(formData);
+  async function saveOrder(formData: FormData) {
+    try {
+      const orderBody = {
+        ...formData,
+        items: items.items,
+        totalProductsPrice: totalPrice,
+      };
+      console.log("dadas");
+      console.log(userData.uid);
+      const userOrderRef = collection(doc(db, "users", userData.uid), "orders");
+
+      const orderRef = await addDoc(userOrderRef, orderBody);
+      showMessage({ type: "success", message: "Order Places" });
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+      console.error(error);
+    }
   }
   return (
     <AppSafeView>
