@@ -1,15 +1,9 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { initializeAuth, getReactNativePersistence } from "firebase/auth";
+import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 import { getFirestore } from "firebase/firestore";
-// Optionally import the services that you want to use
 
-// import {...} from 'firebase/database';
-
-// import {...} from 'firebase/functions';
-// import {...} from 'firebase/storage';
-
-// Initialize Firebase
-// Your web app's Firebase configuration
+// 🔹 Your Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBWZRDBX5lcBw8ik1RF69-YSv_gUvRScug",
   authDomain: "smart-ecommerce-80381.firebaseapp.com",
@@ -19,11 +13,15 @@ const firebaseConfig = {
   appId: "1:391395646742:web:407a878c1a7b1f897a4437",
 };
 
+// 🔹 Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
-const db = getFirestore(app);
-// For more information on how to access Firebase in your project,
-// see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase
+// ✅ Use initializeAuth instead of getAuth (important for React Native)
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+});
 
-export { auth, db };
+// 🔹 Firestore
+const db = getFirestore(app);
+
+export { app, auth, db };
