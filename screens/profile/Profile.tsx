@@ -14,16 +14,19 @@ import { SheetManager } from "react-native-actions-sheet";
 import LanguageBottomSheet from "../../components/language/LanguageBottomSheet";
 import { auth } from "../../config/firebaseConfig";
 import { signOut } from "firebase/auth";
+import { useTranslation } from "react-i18next";
 
 const Profile = () => {
   async function handleLogout() {
     await signOut(auth);
   }
   const navigator = useNavigation<any>();
+  const { t } = useTranslation();
   const data = useSelector((state: RootState) => state.user);
   return (
     <AppSafeView>
       <HomeHeader />
+
       <View
         style={{
           paddingHorizontal: sharedPaddingHorizontal,
@@ -53,13 +56,13 @@ const Profile = () => {
           onPress={() => {
             navigator.navigate("MyOrder");
           }}
-          title={"My Orders"}
+          title={t("MyOrders")}
         ></ProfileSectionButton>
         <ProfileSectionButton
           onPress={() => {
             SheetManager.show("LANG_SHEET");
           }}
-          title={"Language"}
+          title={t("Language")}
         ></ProfileSectionButton>
         <ProfileSectionButton
           onPress={() => {
@@ -81,7 +84,7 @@ const Profile = () => {
               { cancelable: true }
             );
           }}
-          title={"Logout"}
+          title={t("Logout")}
         ></ProfileSectionButton>
       </View>
       <LanguageBottomSheet />

@@ -14,6 +14,8 @@ import { Provider } from "react-redux";
 import { store } from "./stores/store";
 import FlashMessage from "react-native-flash-message";
 import RootNavigation from "./navigation/RootNavigation";
+import i18n from "./localization/i18n";
+import { I18nextProvider } from "react-i18next";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -26,8 +28,10 @@ export default function App() {
   }
   return (
     <Provider store={store}>
-      <FlashMessage></FlashMessage>
-      <RootNavigation></RootNavigation>
+      <I18nextProvider i18n={i18n}>
+        <FlashMessage></FlashMessage>
+        <RootNavigation></RootNavigation>
+      </I18nextProvider>
     </Provider>
   );
 }

@@ -5,11 +5,11 @@ import AppText from "../texts/AppText";
 import AppButton from "../buttons/AppButton";
 import { s, vs } from "react-native-size-matters";
 import RadioWithTitle from "../RadioButton/RadioWithTitle";
-
-const appLanguages = ["English", "Romanian", "Arabic", "Hindi", "Nepali"];
+import { languageArr } from "../../constants/LanguageList";
+import i18n from "../../localization/i18n";
 
 const LanguageBottomSheet = () => {
-  const [selectedLanguage, setSelectedLangudage] = useState(appLanguages[0]);
+  const [selectedLanguage, setSelectedLangudage] = useState(i18n.language);
   return (
     <ActionSheet id="LANG_SHEET">
       <View style={styles.container}>
@@ -21,15 +21,15 @@ const LanguageBottomSheet = () => {
         >
           Change Language
         </AppText>
-        {appLanguages.map((e) => {
+        {languageArr.map((e) => {
           return (
             <RadioWithTitle
-              key={e}
-              title={e}
+              key={e.code}
+              title={e.label}
               onSelect={() => {
-                setSelectedLangudage(e);
+                setSelectedLangudage(e.code);
               }}
-              isSelected={e === selectedLanguage}
+              isSelected={e.code === selectedLanguage}
             />
           );
         })}
@@ -38,6 +38,7 @@ const LanguageBottomSheet = () => {
           title="Confirm"
           onPress={() => {
             SheetManager.hide("LANG_SHEET");
+            i18n.changeLanguage(selectedLanguage);
           }}
         ></AppButton>
       </View>
