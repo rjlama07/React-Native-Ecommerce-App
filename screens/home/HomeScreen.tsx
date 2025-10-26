@@ -30,7 +30,14 @@ const HomeScreen = () => {
   return (
     <AppSafeView>
       <HomeHeader />
-      {isProductLoading && <ActivityIndicator />}
+      {isProductLoading && (
+        <ActivityIndicator
+          style={{
+            flex: 1,
+            alignItems: "center",
+          }}
+        />
+      )}
       {!isProductLoading && (
         <FlatList
           numColumns={2}
