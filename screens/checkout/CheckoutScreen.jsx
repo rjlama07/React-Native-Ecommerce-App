@@ -13,9 +13,35 @@ import { AppColors } from "../../styles/colors";
 import AppbarBackButton from "../../components/headers/AppbarBackButton";
 import { useForm } from "react-hook-form";
 import AppTextController from "../../components/inputs/AppTextController";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const validationScheme = yup
+  .object({
+    fullName: yup
+      .string()
+      .required("Name is required")
+      .min(3, "Name must be atleast characters"),
+    phoneNumber: yup
+      .string()
+      .required("PhoneNumber is required")
+      .matches(
+        /^\+[1-9]\d{1,14}$/,
+        "Must be a valid phone number with country code"
+      )
+      .min(10, "Must be atleast 10 characters"),
+
+    detailsAddress: yup
+      .string()
+      .required("Address is required")
+      .min(15, "Please provide a detailed address"),
+  })
+  .required();
 
 const CheckoutScreen = (f) => {
-  const { control, handleSubmit } = useForm({});
+  const { control, handleSubmit } = useForm({
+    resolver: yupResolver(validationScheme),
+  });
 
   function saveOrder(formData) {
     console.log(formData);
@@ -38,12 +64,12 @@ const CheckoutScreen = (f) => {
           ></AppTextController>
           <AppTextController
             control={control}
-            name={"phone"}
+            name={"phoneNumber"}
             placeHolder="Phone Number"
           ></AppTextController>
           <AppTextController
             control={control}
-            name={"address"}
+            name={"detailsAddress"}
             placeHolder="Address"
           ></AppTextController>
         </View>

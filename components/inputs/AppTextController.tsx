@@ -29,9 +29,7 @@ const AppTextController = ({
             KeyboardType={keyBoardType}
             style={error ? styles.errorStyle : {}}
           ></AppTextInputts>
-          {error && (
-            <AppText style={styles.errorText}>This field is required</AppText>
-          )}
+          {error && <AppText style={styles.errorText}>{error.message}</AppText>}
         </>
       )}
     />
