@@ -11,8 +11,15 @@ import {
 import AppButton from "../../components/buttons/AppButton";
 import { AppColors } from "../../styles/colors";
 import AppbarBackButton from "../../components/headers/AppbarBackButton";
+import { useForm } from "react-hook-form";
+import AppTextController from "../../components/inputs/AppTextController";
 
-const CheckoutScreen = () => {
+const CheckoutScreen = (f) => {
+  const { control, handleSubmit } = useForm({});
+
+  function saveOrder(formData) {
+    console.log(formData);
+  }
   return (
     <AppSafeView>
       <AppbarBackButton title={"Checkout"} />
@@ -24,9 +31,21 @@ const CheckoutScreen = () => {
       >
         {/* Form */}
         <View style={styles.formContainer}>
-          <AppTextInputts placeHolder="Full Name"></AppTextInputts>
-          <AppTextInputts placeHolder="Phone Number"></AppTextInputts>
-          <AppTextInputts placeHolder="Address"></AppTextInputts>
+          <AppTextController
+            control={control}
+            name={"fullName"}
+            placeHolder="Full Name"
+          ></AppTextController>
+          <AppTextController
+            control={control}
+            name={"phone"}
+            placeHolder="Phone Number"
+          ></AppTextController>
+          <AppTextController
+            control={control}
+            name={"address"}
+            placeHolder="Address"
+          ></AppTextController>
         </View>
       </View>
       <View
@@ -34,7 +53,10 @@ const CheckoutScreen = () => {
           paddingHorizontal: sharedPaddingHorizontal,
         }}
       >
-        <AppButton title="Confirm"></AppButton>
+        <AppButton
+          title="Confirm"
+          onPress={handleSubmit(saveOrder)}
+        ></AppButton>
       </View>
     </AppSafeView>
   );
